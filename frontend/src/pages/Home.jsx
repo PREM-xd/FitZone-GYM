@@ -8,6 +8,23 @@ const [plans, setPlans] = useState([]);
 useEffect(() => {
   fetchPlans();
 }, []);
+
+const [age, setAge] = useState("");
+const [gender, setGender] = useState("");
+const [experience, setExperience] = useState("");
+const [bench, setBench] = useState("");
+const [squat, setSquat] = useState("");
+const [deadlift, setDeadlift] = useState("");
+const [goal, setGoal] = useState("");
+
+const [aiPlan, setAiPlan] =
+  useState("");
+
+const [loading, setLoading] =
+  useState(false);
+
+
+
 const handleBuyMembership =
   async (membershipId) => {
 
@@ -196,7 +213,49 @@ const fetchPlans = async () => {
   };
 };
 const bmiData = calculateBMI();
-  return (
+ 
+const generateFitnessPlan =
+  async () => {
+
+    try {
+
+      setLoading(true);
+
+      const response =
+        await axios.post(
+          "http://localhost:8000/api/ai/fitness-plan",
+          {
+            age,
+            gender,
+            height,
+            weight,
+            experience,
+            bench,
+            squat,
+            deadlift,
+            goal,
+          }
+        );
+
+      setAiPlan(
+        response.data.plan
+      );
+
+    } catch (error) {
+
+      alert(
+        "Failed to generate plan"
+      );
+
+    } finally {
+
+      setLoading(false);
+
+    }
+};
+
+
+return (
     <>
      <nav className="navbar">
 
@@ -509,38 +568,183 @@ const bmiData = calculateBMI();
 </div>
 </section>
 
+
 <section className="bmi-section">
 
   <div className="section-title">
-    <h2>BMI Calculator</h2>
-    <p>Check your Body Mass Index and receive personalized guidance.</p>
+
+    <h2>
+      IronHouse AI Fitness Planner
+    </h2>
+
+    <p>
+      Get your personalized
+      fitness and nutrition plan
+      powered by AI.
+    </p>
+
   </div>
 
   <div className="bmi-card">
 
     <input
       type="number"
+      placeholder="Age"
+      value={age}
+      onChange={(e) =>
+        setAge(e.target.value)
+      }
+    />
+
+    <select
+      value={gender}
+      onChange={(e) =>
+        setGender(e.target.value)
+      }
+    >
+      <option value="">
+        Select Gender
+      </option>
+
+      <option value="Male">
+        Male
+      </option>
+
+      <option value="Female">
+        Female
+      </option>
+    </select>
+
+    <input
+      type="number"
       placeholder="Height (cm)"
       value={height}
-      onChange={(e) => setHeight(e.target.value)}
+      onChange={(e) =>
+        setHeight(
+          e.target.value
+        )
+      }
     />
 
     <input
       type="number"
       placeholder="Weight (kg)"
       value={weight}
-      onChange={(e) => setWeight(e.target.value)}
+      onChange={(e) =>
+        setWeight(
+          e.target.value
+        )
+      }
     />
 
-    <div className="bmi-display">
-      <h1>{bmiData.bmi}</h1>
-      <h3>{bmiData.category}</h3>
-    </div>
+    <input
+      type="text"
+      placeholder="Experience (e.g. Beginner, 1 Year)"
+      value={experience}
+      onChange={(e) =>
+        setExperience(
+          e.target.value
+        )
+      }
+    />
 
-    <div className="bmi-advice">
-      <h4>Health Advice</h4>
-      <p>{bmiData.advice}</p>
-    </div>
+    <input
+      type="text"
+      placeholder="Bench Press"
+      value={bench}
+      onChange={(e) =>
+        setBench(
+          e.target.value
+        )
+      }
+    />
+
+    <input
+      type="text"
+      placeholder="Squat"
+      value={squat}
+      onChange={(e) =>
+        setSquat(
+          e.target.value
+        )
+      }
+    />
+
+    <input
+      type="text"
+      placeholder="Deadlift"
+      value={deadlift}
+      onChange={(e) =>
+        setDeadlift(
+          e.target.value
+        )
+      }
+    />
+
+    <select
+      value={goal}
+      onChange={(e) =>
+        setGoal(
+          e.target.value
+        )
+      }
+    >
+      <option value="">
+        Select Goal
+      </option>
+
+      <option value="Fat Loss">
+        Fat Loss
+      </option>
+
+      <option value="Muscle Gain">
+        Muscle Gain
+      </option>
+
+      <option value="Bodybuilding">
+        Bodybuilding
+      </option>
+
+      <option value="Powerlifting">
+        Powerlifting
+      </option>
+    </select>
+
+    <button
+      className="primary-btn"
+      onClick={
+        generateFitnessPlan
+      }
+    >
+      {
+        loading
+          ? "Generating..."
+          : "Generate AI Plan"
+      }
+    </button>
+
+    {aiPlan && (
+
+      <div
+        style={{
+          marginTop: "30px",
+          textAlign: "left",
+          whiteSpace:
+            "pre-wrap",
+        }}
+      >
+
+        <h3>
+          Your AI Plan
+        </h3>
+
+        <p>
+          {aiPlan}
+        </p>
+
+      </div>
+
+    )}
 
   </div>
 

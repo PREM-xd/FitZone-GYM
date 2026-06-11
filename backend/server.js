@@ -36,7 +36,12 @@ app.use(
   "/api/user-memberships",
   userMembershipRoutes
 );
-
+const aiRoutes =
+  require("./routes/aiRoutes");
+  app.use(
+  "/api/ai",
+  aiRoutes
+);
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
