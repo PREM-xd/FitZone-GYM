@@ -227,6 +227,7 @@ console.log(bookings);
       {membership?.membership?.name}
     </h1>
   </div>
+  
 <div className="pr-section">
 
 <h2>🏆 Personal Records</h2>
