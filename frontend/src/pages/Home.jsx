@@ -75,7 +75,7 @@ const handleBuyMembership =
 
       const response =
         await axios.get(
-          `http://localhost:8000/api/user-memberships/payment-order/${membershipId}`,
+          `${import.meta.env.VITE_API_URL}/api/user-memberships/payment-order/${membershipId}`,
           {
             headers: {
               Authorization:
@@ -117,7 +117,7 @@ handler: async function (
 
       await axios.post(
 
-        "http://localhost:8000/api/user-memberships/verify-payment",
+        "${import.meta.env.VITE_API_URL}/api/user-memberships/verify-payment",
 
         {
 
@@ -193,7 +193,7 @@ razorpay.open();
 const fetchPlans = async () => {
   try {
     const response = await axios.get(
-      "http://localhost:8000/api/memberships"
+      "${import.meta.env.VITE_API_URL}/api/memberships"
     );
 
     setPlans(response.data);
@@ -213,7 +213,7 @@ const generateFitnessPlan =
 
       const response =
         await axios.post(
-          "http://localhost:8000/api/ai/fitness-plan",
+          "${import.meta.env.VITE_API_URL}/api/ai/fitness-plan",
           {
             age,
             gender,
@@ -272,7 +272,7 @@ const askCoachAI = async () => {
 
     const response =
       await axios.post(
-        "http://localhost:8000/api/chat/ask",
+        "${import.meta.env.VITE_API_URL}/api/chat/ask",
         {
           question,
         }

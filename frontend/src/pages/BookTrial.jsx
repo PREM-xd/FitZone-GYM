@@ -14,7 +14,7 @@ if (!token) {
 const handleBooking = async () => {
   try {
    const response = await axios.post(
-  "http://localhost:8000/api/bookings",
+  "${import.meta.env.VITE_API_URL}/api/bookings",
   {
     name,
     phone,

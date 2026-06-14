@@ -1,5 +1,5 @@
 const UserStats =
-  require("../models/UserStats");
+  require("../models/userStats");
 
 exports.getMyStats =
   async (req, res) => {

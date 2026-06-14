@@ -1,7 +1,7 @@
 
 const Booking = require("../models/Booking");
 const User =
-  require("../models/User");
+  require("../models/user");
 
 const transporter =
   require("../config/email");

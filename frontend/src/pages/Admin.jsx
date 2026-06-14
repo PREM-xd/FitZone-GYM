@@ -62,7 +62,7 @@ useEffect(() => {
  const fetchBookings = async () => {
   try {
     const response = await axios.get(
-      "http://localhost:8000/api/bookings",
+      "${import.meta.env.VITE_API_URL}/api/bookings",
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem(
@@ -91,7 +91,7 @@ const fetchPlans = async () => {
   try {
 
     const response = await axios.get(
-      "http://localhost:8000/api/memberships"
+      "${import.meta.env.VITE_API_URL}/api/memberships"
     );
 
     setPlans(response.data);
@@ -107,7 +107,7 @@ const fetchRevenueStats =
 
       const response =
         await axios.get(
-          "http://localhost:8000/api/user-memberships/revenue",
+          "${import.meta.env.VITE_API_URL}/api/user-memberships/revenue",
           {
             headers: {
               Authorization:
@@ -153,7 +153,7 @@ const handleAddPlan = async () => {
   if (editingPlanId) {
 
   await axios.put(
-    `http://localhost:8000/api/memberships/${editingPlanId}`,
+    `${import.meta.env.VITE_API_URL}/api/memberships/${editingPlanId}`,
     {
       name: planName,
       price: planPrice,
@@ -172,7 +172,7 @@ const handleAddPlan = async () => {
 } else {
 
   await axios.post(
-    "http://localhost:8000/api/memberships",
+    "${import.meta.env.VITE_API_URL}/api/memberships",
     {
       name: planName,
       price: planPrice,
@@ -214,7 +214,7 @@ const handleDelete = async (id) => {
     if (!confirmDelete) return;
 
    await axios.delete(
-  `http://localhost:8000/api/bookings/${id}`,
+  `${import.meta.env.VITE_API_URL}/api/bookings/${id}`,
   {
     headers: {
       Authorization: `Bearer ${localStorage.getItem(
@@ -237,7 +237,7 @@ const handleDeletePlan = async (id) => {
       localStorage.getItem("token");
 
     await axios.delete(
-      `http://localhost:8000/api/memberships/${id}`,
+      `${import.meta.env.VITE_API_URL}/api/memberships/${id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -279,7 +279,7 @@ const handleEditPlan = (
 const handleStatusChange = async (id, status) => {
   try {
    await axios.put(
-  `http://localhost:8000/api/bookings/${id}`,
+  `${import.meta.env.VITE_API_URL}/api/bookings/${id}`,
   { status },
   {
     headers: {

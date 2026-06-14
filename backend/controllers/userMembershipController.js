@@ -3,12 +3,12 @@ const crypto =
 const razorpay =
   require("../config/razorpay");
 const UserMembership =
-  require("../models/UserMembership");
+  require("../models/userMembership");
 
 const Membership =
   require("../models/Membership");
 const User =
-  require("../models/User");
+  require("../models/user");
 
 const transporter =
   require("../config/email");

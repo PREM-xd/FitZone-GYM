@@ -11,7 +11,7 @@ export default function Memberships() {
   const fetchPlans = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/memberships"
+        "${import.meta.env.VITE_API_URL}/api/memberships"
       );
 
       setPlans(response.data);

@@ -45,7 +45,7 @@ const [bodyWeight, setBodyWeight] = useState("");
 
     const response =
       await axios.get(
-        "http://localhost:8000/api/stats/my-stats",
+        "${import.meta.env.VITE_API_URL}/api/stats/my-stats",
         {
           headers: {
             Authorization:
@@ -69,7 +69,7 @@ const [bodyWeight, setBodyWeight] = useState("");
     try {
 
       const response = await axios.get(
-  "http://localhost:8000/api/bookings/my-bookings",
+  "${import.meta.env.VITE_API_URL}/api/bookings/my-bookings",
   {
     headers: {
       Authorization:
@@ -92,7 +92,7 @@ const fetchMembership = async () => {
 
     const response =
       await axios.get(
-        "http://localhost:8000/api/user-memberships/my-membership",
+        "${import.meta.env.VITE_API_URL}/api/user-memberships/my-membership",
         {
           headers: {
             Authorization:
@@ -120,7 +120,7 @@ const fetchPaymentHistory =
 
       const response =
         await axios.get(
-          "http://localhost:8000/api/user-memberships/payment-history",
+          "${import.meta.env.VITE_API_URL}/api/user-memberships/payment-history",
           {
             headers: {
               Authorization:
@@ -178,7 +178,7 @@ const handleRenewMembership =
 
       const response =
         await axios.get(
-          `http://localhost:8000/api/user-memberships/renew-order/${membership._id}`,
+          `${import.meta.env.VITE_API_URL}/api/user-memberships/renew-order/${membership._id}`,
           {
             headers: {
               Authorization:
@@ -214,7 +214,7 @@ const handleRenewMembership =
           async function () {
 
             await axios.post(
-              `http://localhost:8000/api/user-memberships/renew/${membership._id}`,
+              `${import.meta.env.VITE_API_URL}/api/user-memberships/renew/${membership._id}`,
               {},
               {
                 headers: {
@@ -255,7 +255,7 @@ const handleSaveStats = async () => {
   try {
 
     await axios.put(
-      "http://localhost:8000/api/stats/update",
+      "${import.meta.env.VITE_API_URL}/api/stats/update",
       {
         goal,
         benchPR,
