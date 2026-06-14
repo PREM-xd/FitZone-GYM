@@ -1795,3 +1795,16 @@ margin-bottom:40px;
 color:white;
 margin-bottom:20px;
 }
+.dashboard-card input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 1px solid #ff6b00;
+  background: #111;
+  color: white;
+}
+
+.dashboard-card button {
+  margin-top: 15px;
+}

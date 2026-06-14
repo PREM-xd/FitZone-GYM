@@ -8,12 +8,61 @@ const [membership, setMembership] =
   setPaymentHistory] =
   useState([]);
   const [bookings, setBookings] = useState([]);
-
+    const [stats, setStats] = useState(null);
+      const [goal, setGoal] = useState("");
+const [benchPR, setBenchPR] = useState("");
+const [squatPR, setSquatPR] = useState("");
+const [deadliftPR, setDeadliftPR] = useState("");
+const [bodyWeight, setBodyWeight] = useState("");
   useEffect(() => {
     fetchBookings();
       fetchMembership();
       fetchPaymentHistory();
+      fetchStats();
+    
   }, []);
+  useEffect(() => {
+
+  if (stats) {
+
+    setGoal(stats.goal || "");
+
+    setBenchPR(stats.benchPR || "");
+
+    setSquatPR(stats.squatPR || "");
+
+    setDeadliftPR(stats.deadliftPR || "");
+
+    setBodyWeight(stats.bodyWeight || "");
+
+  }
+
+}, [stats]);
+
+  const fetchStats = async () => {
+
+  try {
+
+    const response =
+      await axios.get(
+        "http://localhost:8000/api/stats/my-stats",
+        {
+          headers: {
+            Authorization:
+              `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+    setStats(response.data);
+
+  } catch (error) {
+
+    console.log(error);
+
+  }
+
+};
 
   const fetchBookings = async () => {
 
@@ -201,6 +250,48 @@ const handleRenewMembership =
     }
 };
 console.log(bookings);
+const handleSaveStats = async () => {
+
+  try {
+
+    await axios.put(
+      "http://localhost:8000/api/stats/update",
+      {
+        goal,
+        benchPR,
+        squatPR,
+        deadliftPR,
+        bodyWeight,
+        fitnessScore:
+          Math.round(
+            (
+              Number(benchPR) +
+              Number(squatPR) +
+              Number(deadliftPR)
+            ) / 5
+          )
+      },
+      {
+        headers: {
+          Authorization:
+            `Bearer ${localStorage.getItem("token")}`
+        }
+      }
+    );
+
+    alert("Stats Updated Successfully");
+
+    fetchStats();
+
+  } catch (error) {
+
+    console.log(error);
+
+    alert("Failed To Update Stats");
+
+  }
+
+};
   return (
 
     <div className="dashboard-container">
@@ -208,12 +299,12 @@ console.log(bookings);
 
   <div className="hero-card">
     <h3>🔥 Fitness Score</h3>
-    <h1>82</h1>
+    <h1>{stats?.fitnessScore || 0}</h1>
   </div>
 
   <div className="hero-card">
     <h3>🎯 Goal</h3>
-    <h1>Fat Loss</h1>
+    <h1>{stats?.goal || "Not Set"}</h1>
   </div>
 
   <div className="hero-card">
@@ -221,13 +312,15 @@ console.log(bookings);
     <h1>{getDaysRemaining()}</h1>
   </div>
 
-  <div className="hero-card">
-    <h3>💳 Membership</h3>
-    <h1>
-      {membership?.membership?.name}
-    </h1>
-  </div>
-  
+<div className="hero-card">
+  <h3>💳 Membership</h3>
+  <h1>
+    {membership?.membership?.name}
+  </h1>
+</div>
+
+</div> 
+
 <div className="pr-section">
 
 <h2>🏆 Personal Records</h2>
@@ -236,29 +329,91 @@ console.log(bookings);
 
 <div className="hero-card">
 <h3>Bench PR</h3>
-<h1>85kg</h1>
+<h1>{stats?.benchPR || 0}kg</h1>
 </div>
 
 <div className="hero-card">
 <h3>Squat PR</h3>
-<h1>120kg</h1>
+<h1>{stats?.squatPR || 0}kg</h1>
 </div>
 
 <div className="hero-card">
 <h3>Deadlift PR</h3>
-<h1>180kg</h1>
+<h1>{stats?.deadliftPR || 0}kg</h1>
 </div>
 
 <div className="hero-card">
 <h3>Total</h3>
-<h1>385kg</h1>
+<h1>{
+(stats?.benchPR || 0)
++
+(stats?.squatPR || 0)
++
+(stats?.deadliftPR || 0)
+}kg</h1>
 </div>
 
 </div>
 
 </div>
+<div className="dashboard-card">
+
+  <h2>🏋️ Update Stats</h2>
+
+  <input
+    type="text"
+    placeholder="Goal"
+    value={goal}
+    onChange={(e) =>
+      setGoal(e.target.value)
+    }
+  />
+
+  <input
+    type="number"
+    placeholder="Bench PR"
+    value={benchPR}
+    onChange={(e) =>
+      setBenchPR(e.target.value)
+    }
+  />
+
+  <input
+    type="number"
+    placeholder="Squat PR"
+    value={squatPR}
+    onChange={(e) =>
+      setSquatPR(e.target.value)
+    }
+  />
+
+  <input
+    type="number"
+    placeholder="Deadlift PR"
+    value={deadliftPR}
+    onChange={(e) =>
+      setDeadliftPR(e.target.value)
+    }
+  />
+
+  <input
+    type="number"
+    placeholder="Body Weight"
+    value={bodyWeight}
+    onChange={(e) =>
+      setBodyWeight(e.target.value)
+    }
+  />
+
+  <button
+    className="trial-btn"
+    onClick={handleSaveStats}
+  >
+    Save Stats
+  </button>
+
 </div>
-     <h1>
+<h1>
 Welcome Back 💪
 </h1>
 

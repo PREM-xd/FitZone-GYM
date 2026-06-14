@@ -50,6 +50,14 @@ const chatRoutes =
   "/api/chat",
   chatRoutes
 );
+const userStatsRoutes =
+require("./routes/userStatsRoutes");
+app.use(
+  "/api/stats",
+  userStatsRoutes
+);
+
+
 
 const PORT = process.env.PORT || 8000;
 
